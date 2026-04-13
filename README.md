@@ -1,8 +1,5 @@
-Aqui está um **resumo claro e objetivo** do conteúdo da disciplina **IA26 - Web Design**:
 
----
-
-### **Resumo - IA26 Web Design**
+**Resumo**
 
 **Objetivo da disciplina:**  
 Ensinar os fundamentos de criação e estilização de páginas web usando **HTML**, **CSS** e noções básicas de **JavaScript**. É uma disciplina introdutória, mas essencial para quem quer seguir carreira em desenvolvimento web.
