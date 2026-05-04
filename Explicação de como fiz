@@ -1,0 +1,86 @@
+
+
+### **Explicação do Sistema de Login e Cadastro da Kalix CO**
+
+O sistema de contas foi desenvolvido **apenas com HTML, CSS e JavaScript puro** (sem backend), utilizando `localStorage` do navegador para armazenar os dados.
+
+#### **1. Estrutura Geral**
+
+- **Classe `GerenciadorContas`** → Responsável por gerenciar todas as contas.
+- As contas ficam salvas no `localStorage` do navegador (chave: `'contas'`).
+- Cada conta possui: `id`, `nome`, `email`, `telefone`, `senha` e `dataCriacao`.
+
+#### **2. Como funciona o Cadastro (Registro)**
+
+1. O usuário preenche o formulário da seção **"Criar Conta"**.
+2. Ao clicar em "Criar Conta", é executada a função no evento `submit`.
+3. Validações realizadas:
+   - Todos os campos obrigatórios preenchidos
+   - Senha e confirmar senha iguais
+   - Senha com no mínimo 6 caracteres
+   - Email ainda não cadastrado
+4. Se tudo estiver correto:
+   - Gera um **ID único** (número aleatório de 1 a 999999)
+   - Cria um objeto com os dados da conta
+   - Adiciona no array `contas`
+   - Salva no `localStorage`
+   - Atualiza o painel lateral "Contas Criadas"
+   - Mostra mensagem de sucesso com o ID da conta
+
+#### **3. Como funciona o Login**
+
+O login foi implementado da seguinte forma:
+
+```javascript
+// Evento no formulário de login
+document.getElementById('form-login').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email-login').value.trim();
+    const senha = document.getElementById('senha-login').value;
+
+    // Busca a conta pelo email
+    const conta = gerenciador.contas.find(c => c.email === email);
+
+    if (!conta) {
+        alert('❌ Email não encontrado!');
+        return;
+    }
+
+    if (conta.senha !== senha) {
+        alert('❌ Senha incorreta!');
+        return;
+    }
+
+    // Login bem-sucedido
+    alert(`✅ Login realizado!\nBem-vindo(a), ${conta.nome}!`);
+    
+    // Salva informação de usuário logado
+    localStorage.setItem('usuarioLogado', JSON.stringify({
+        id: conta.id,
+        nome: conta.nome,
+        email: conta.email
+    }));
+});
+```
+
+**Fluxo do Login:**
+1. Usuário digita email e senha
+2. Sistema procura a conta pelo email no array de contas
+3. Compara a senha digitada com a senha salva
+4. Se correto → mostra mensagem de boas-vindas e salva o estado de login
+5. Se errado → mostra mensagem de erro
+
+#### **4. Principais Funcionalidades do Gerenciador**
+
+- `gerarIDUnico()` → Gera ID sem repetição
+- `criarConta()` → Cadastra nova conta
+- `exibirContas()` → Atualiza o painel lateral em tempo real
+- `salvarContas()` / `carregarContas()` → Persistência via localStorage
+
+#### **Observações Importantes**
+
+- As senhas são salvas em **texto puro** (apenas para demonstração). Em um projeto real, deve-se usar hash (ex: bcrypt).
+- O sistema funciona inteiramente no navegador (front-end only).
+- O painel lateral ("Contas Criadas") mostra todas as contas cadastradas em tempo real.
+- Cada conta gerada tem um ID único que o usuário deve guardar.
